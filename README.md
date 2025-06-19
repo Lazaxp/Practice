@@ -1,11 +1,4 @@
 # Practice
-ujgnurhfenrufhewdhq
-
-
-
-
-
-
 
 <!doctype html>
 <html>
@@ -14,7 +7,7 @@ ujgnurhfenrufhewdhq
 <title>
     Soul Society he youkuso
 </title>
-<link rel="stylesheet" href="style.css">
+< link rel="stylesheet" href="CSS">
 </head>
 </body>
 </html>
