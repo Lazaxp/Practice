@@ -25,7 +25,7 @@ def character_select():
        return character      
        break
     elif confirm == "no":
-       return character_select()
+       return character_select(character)
     else:
        print("Please Choose within the option.")
 def boss_select(character):
