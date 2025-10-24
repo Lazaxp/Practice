@@ -13,9 +13,6 @@ def knight():
   ultimate = 30
   crit = 100
   return hp, basic_attack, skill1, heal, ultimate, crit
-def clear_screen():
-  if os.name == "nt":
-     os.system("cls")  
 a = input("Welcome To My Test Turn-Based Game.\nPress Enter to Start.")
 clear_screen()
 def character_select():
@@ -25,7 +22,6 @@ def character_select():
     confirm = input(f"You've Selected {charas[character]}. Is this the Character you want? (Yes/No):\t").lower()
     if confirm == "yes":
        print(f"{charas[character]} Confirmed.")
-       clear_screen()
        return character      
        break
     elif confirm == "no":
@@ -39,7 +35,6 @@ def boss_select(character):
     confirm = input(f"You've selected to battle with {enemies[selection]}. Are you sure? (Yes or No):\t")
     if confirm == "yes":
       print("Confirmed.")
-      clear_screen()
       return selection
       break
     elif confirm == "no":
