@@ -58,7 +58,7 @@ def battle(character, selection):
         enemies[selection]["HP"] -= charas[character]["Skill"]
         print(f"Dealt skill(-{charas[character]['Skill']}) to {selection}")
       elif turn == "3":
-        enemies[selection]["HP"] += charas[character]["heal"]
+        charas[character]["HP"] += charas[character]["heal"]
         print(f"Heals self by {charas[character]['heal']}")
       elif turn == "4":
         enemies[selection]["HP"] -= charas[character]["ultimate"]
