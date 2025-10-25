@@ -62,8 +62,10 @@ def battle(character, selection, action, dmg):
         charas[character]["HP"] -= dmg
       elif turn == "3":
         charas[character]["HP"] += charas[character]["heal"]
-        print(f"\n\nHeals self by {charas[character]['heal']}\n\n{selection} used {action}! Dealt {enemies[selection][action]}\n\n")
-        charas[character]["HP"] -= dmg
+        if charas[character]["HP"] > 100:
+          charas[character]["HP"] = 100
+          print(f"\n\nHeals self by {charas[character]['heal']}\n\n{selection} used {action}! Dealt {enemies[selection][action]}\n\n")
+          charas[character]["HP"] -= dmg
       elif turn == "4":
         enemies[selection]["HP"] -= charas[character]["ultimate"]
         print(f"\n\nDealt Ultimate (-{charas[character]['ultimate']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
