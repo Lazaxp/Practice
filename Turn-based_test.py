@@ -6,9 +6,9 @@ charas = {"Knight":{ "Basic_attack" : 10 , "Skill" : 15 ,"heal" : 30 , "ultimate
           "Javelin":{ "Basic_attack" : 15 , "Skill" : 10 ,"heal" : 20 , "ultimate" : 20, "HP" : 80}}
 
 enemies = {
-  "Local criminal":{"HP": 100},
-  "Hobgoblin":{"HP" : 200},
-  "Demon":{"HP" : 500}}
+  "Local_Criminal":{"HP": 100, "Basic Attack" : 5,"Skill" :10},
+  "Hobgoblin":{"HP" : 200, "Basic Attack" : 5,"Skill" :10},
+  "Demon":{"HP" : 500, "Basic Attack" : 5,"Skill" :10}}
 
 a = input("Welcome To My Test Turn-Based Game.\nPress Enter to Start.")
 
@@ -31,7 +31,7 @@ def character_select():
       
 def boss_select(character):
   while True:
-    print(f"Current Character: {character}\nSTAGE SELECT:\nLocal Criminal - Easy\nHobgoblin - Medium\nDemon - Hard\n")
+    print(f"\nCurrent Character: {character}\n\nSTAGE SELECT:\n\nLocal_Criminal - Easy\nHobgoblin - Medium\nDemon - Hard\n")
     selection = input("Enter Here:\t").capitalize()
     if selection in enemies:
       confirm = input(f"You've selected to battle with {selection}. Are you sure? (Yes or No):\t")
@@ -46,23 +46,27 @@ def boss_select(character):
     else:
       print("\n\nInvalid Option.\n\n")
     
-def battle(character, selection):  
+def battle(character, selection, action, dmg):  
     print("\n\nBattle Start")
     while True:
       print(f"Enemy {selection}\n\n{selection} Current HP: {enemies.get(selection).get('HP')}\nYour Current HP: {charas.get(character).get('HP')}")
-      turn = input(f"What would you like to do?:\n(1)Basic Attack - {charas.get(character).get('Basic_attack')}DMG\t(2)Skill - {charas.get(character).get('Skill')}DMG\n(3)Heal Self - {charas.get(character).get('heal')}HP\t(4)Ultimate {charas.get(character).get('ultimate')}DMG\nEnter here:\t")
+      turn = input(f"\nWhat would you like to do?:\n\n(1)Basic Attack - {charas.get(character).get('Basic_attack')}DMG\t(2)Skill - {charas.get(character).get('Skill')}DMG\n(3)Heal Self - {charas.get(character).get('heal')}HP\t(4)Ultimate {charas.get(character).get('ultimate')}DMG\nEnter here:\t")
       if turn == "1":
         enemies[selection]["HP"] -= charas[character]["Basic_attack"]
-        print(f"Dealt Basic Attack(-{charas[character]['Basic_attack']}) to {selection}")
+        print(f"\n\nDealt Ultimate (-{charas[character]['ultimate']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character}HP:{charas[character]["HP"]}\n\n")
+        charas[character]["HP"] -= dmg
       elif turn == "2":
         enemies[selection]["HP"] -= charas[character]["Skill"]
-        print(f"Dealt skill(-{charas[character]['Skill']}) to {selection}")
+        print(f"\n\nDealt Ultimate (-{charas[character]['ultimate']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character}HP:{charas[character]["HP"]}\n\n")
+        charas[character]["HP"] -= dmg
       elif turn == "3":
         charas[character]["HP"] += charas[character]["heal"]
-        print(f"Heals self by {charas[character]['heal']}")
+        print(f"\n\nHeals self by {charas[character]['heal']}\n\n{selection} used {action}! Dealt {enemies[selection][action]}\n\n")
+        charas[character]["HP"] -= dmg
       elif turn == "4":
         enemies[selection]["HP"] -= charas[character]["ultimate"]
-        print(f"Dealt Ultimate (-{charas[character]['ultimate']}) to {selection}")
+        print(f"\n\nDealt Ultimate (-{charas[character]['ultimate']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character}HP:{charas[character]["HP"]}\n\n")
+        charas[character]["HP"] -= dmg
       else: 
         print("Choose a Valid Option.")
       if enemies[selection]["HP"] <= 0:
@@ -77,7 +81,17 @@ def battle(character, selection):
           break
         else:
           print("Choose within the options")
-          
+
+def enemy_behaviour(selection):
+  if random.randint(1,10) <= 5:
+    action = "Basic Attack"
+    dmg = enemies[selection]['Basic Attack']
+    return action, dmg
+  else:
+    action = "Skill"
+    dmg = enemies[selection]['Skill']
+    return action, dmg
 character = character_select()
 selection = boss_select(character)
-battle(character, selection)
+action, dmg = enemy_behaviour(selection)
+battle(character, selection, action, dmg)
