@@ -15,6 +15,7 @@ a = input("Welcome To My Test Turn-Based Game.\nPress Enter to Start.")
 
 def character_select():
   while True:
+            os.system("cls")
     character = input("Select your character:\nKnight - Big Base Attack\nMage - Big Base Magic and Crit\nJavelin - Big Crit Rate\n\nEnter Here:\t").capitalize()
     if character in charas:
         confirm = input(f"You've Selected {character}. Is this the Character you want? (Yes/No):\t").lower()
@@ -23,33 +24,44 @@ def character_select():
            return character      
            break
         elif confirm == "no":
+           os.system("cls")
            return character_select() 
         else:
-         print("Please Choose within the option.")
+           os.system("cls")
+           print("Please Choose within the option.")
+          
     else:
       print("\n\nInvalid Option.\n\n")
       continue
       
 def boss_select(character):
   while True:
+    os.system("cls")
     print(f"\nCurrent Character: {character}\n\nSTAGE SELECT:\n\nLocal_Criminal - Easy\nHobgoblin - Medium\nDemon - Hard\n")
     selection = input("Enter Here:\t").capitalize()
     if selection in enemies:
       confirm = input(f"You've selected to battle with {selection}. Are you sure? (Yes or No):\t")
       if confirm == "yes":
+        os.system("cls")
         print("Confirmed.")
         return selection
         break
       elif confirm == "no":
+        os.system("cls")
         return boss_select()
       else:
+        os.system("cls")
         print("Please choose within the options.")
+        
     else:
+      os.system("cls")
       print("\n\nInvalid Option.\n\n")
     
 def battle(character, selection, action, dmg, crithit):  
-    print("\n\nBattle Start")
+    
     while True:
+      os.system("cls")
+      print("\n\nBattle Start")
       print(f"Enemy {selection}\n\n{selection} Current HP: {enemies.get(selection).get('HP')}\nYour Current HP: {charas.get(character).get('HP')}")
       turn = input(f"\nWhat would you like to do?:\n\n(1)Basic Attack - {charas.get(character).get('Basic_attack')}DMG\t(2)Skill - {charas.get(character).get('Skill')}DMG\n(3)Heal Self - {charas.get(character).get('heal')}HP\t(4)Ultimate {charas.get(character).get('ultimate')}DMG\nEnter here:\t")
       if turn == "1":       
@@ -83,9 +95,11 @@ def battle(character, selection, action, dmg, crithit):
       else: 
         print("Choose a Valid Option.")
       if enemies[selection]["HP"] <= 0:
+        os.system("cls")
         print("Enemy Defeated")
         break
       elif charas[character]["HP"] <= 0:
+        os.system("cls")
         print("You have been defeated")
         r = input("Try again?:\t").lower()
         if r == yes:
