@@ -1,5 +1,5 @@
 #Quick game practice
-import random
+import random, os
 count = 0
 charas = {
           "Knight":{ "Basic_attack" : 10 , "Skill" : 15 ,"heal" : 30 , "ultimate" : 30, "HP" : 100, "crit" : 40, "critdmg" : 2},
@@ -15,7 +15,7 @@ a = input("Welcome To My Test Turn-Based Game.\nPress Enter to Start.")
 
 def character_select():
   while True:
-            os.system("cls")
+    os.system("cls")
     character = input("Select your character:\nKnight - Big Base Attack\nMage - Big Base Magic and Crit\nJavelin - Big Crit Rate\n\nEnter Here:\t").capitalize()
     if character in charas:
         confirm = input(f"You've Selected {character}. Is this the Character you want? (Yes/No):\t").lower()
@@ -57,7 +57,7 @@ def boss_select(character):
       os.system("cls")
       print("\n\nInvalid Option.\n\n")
     
-def battle(character, selection, action, dmg, crithit):  
+def battle(character, selection, action, dmg, crithit,count):  
     
     while True:
       os.system("cls")
@@ -68,14 +68,14 @@ def battle(character, selection, action, dmg, crithit):
         enemies[selection]["HP"] -= charas[character]["Basic_attack"]
         if crithit == True:
           enemies[selection]["HP"] -= charas[character]["crit"]
-          print(f"\n\nCritical Hit! Dealt Basic Attack (-{charas[character]['Skill']+charas[character]["crit"]}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
+          print(f"\n\nCritical Hit! Dealt Basic Attack (-{charas[character]['Skill']+charas[character]['crit']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
         else:
           print(f"\n\nDealt Basic Attack (-{charas[character]['Skill']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       elif turn == "2":
         enemies[selection]["HP"] -= charas[character]["Skill"]
         if crithit == True:
           enemies[selection]["HP"] -= charas[character]["crit"]
-          print(f"\n\nCritical Hit! Dealt Skill (-{charas[character]['Skill']+charas[character]["crit"]}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
+          print(f"\n\nCritical Hit! Dealt Skill (-{charas[character]['Skill']+charas[character]['crit']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
         else:
           print(f"\n\nDealt Skill (-{charas[character]['Basic_attack']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       elif turn == "3":
@@ -89,7 +89,7 @@ def battle(character, selection, action, dmg, crithit):
         count += 1
         if crithit == True:
           enemies[selection]["HP"] -= charas[character]["crit"]
-          print(f"\n\nCritical Hit! Dealt Ultimate(-{charas[character]['ultimate']+charas[character]["crit"]}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
+          print(f"\n\nCritical Hit! Dealt Ultimate(-{charas[character]['ultimate']+charas[character]['crit']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
         else:
           print(f"\n\nDealt Ultimate(-{charas[character]['ultimate']}) to {selection}\n\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       else: 
