@@ -137,7 +137,21 @@ def battle(character, selection, action, dmg, crithit):
     if enemies[selection]["HP"] <= 0:
       cls(0)
       print("Enemy Defeated")
-      break
+      x = input("Would you like to return?").lower()
+      if x == "yes":
+        print("returning")
+        for y in range(3):
+          time.sleep(0.5)
+          print(".")
+          cls(0)
+          return character_select()
+      elif x == "no":
+        print("ending session")
+        for y in range(3):
+          time.sleep(0.5)
+          print(".")
+          cls(0)
+        break
     elif charas[character]["HP"] <= 0:
       cls(0)
       print("You have been defeated")
@@ -154,7 +168,7 @@ def enemy_behaviour(selection):
   if random.randint(1,25) == 1:
     action = "Ultimate"
     dmg = enemies[selection]["Ultimate"]
-    return action, dmg (f"The {selection} used its Ultimate Attack!")
+    return action, dmg
   else: 
     if random.randint (1,3) != 2:
       action = "Basic Attack"
@@ -180,6 +194,5 @@ selection = boss_select(character)
 action, dmg = enemy_behaviour(selection)
 crithit = critical(character)
 count = battle(character, selection, action, dmg, crithit) 
-
 
 
