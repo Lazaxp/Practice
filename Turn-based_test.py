@@ -39,8 +39,8 @@ def character_select():
 def boss_select(character):
   while True:
     os.system("cls")
-    print(f"\nCurrent Character: {character}\n\nSTAGE SELECT:\n\nLocal_Criminal - Easy\nHobgoblin - Medium\nDemon - Hard\nRandom - Random")
-    selection = input("Enter Here:\t").capitalize()
+    print(f"\nCurrent Character: {character}\n\nSTAGE SELECT:\n\n   Enemy\t\tDifficulty\n\nLocal Criminal \t - Easy\nHobgoblin\t - Medium\nDemon\t\t - Hard\nRandom\t\t - Random")
+    selection = input("Enter the name of the enemy:\t").capitalize()
     if selection in enemies:
       confirm = input(f"You've selected to battle with {selection}. Are you sure? (Yes or No):\t")
       if confirm == "yes":
@@ -63,47 +63,47 @@ def boss_select(character):
     else:
       os.system("cls")
       print("\n\nInvalid Option.\n\n")
-    
 def battle(character, selection, action, dmg, crithit):  
   print("Battle Start")
-  time.sleep(0.5)
   while True:
-    cls(1.1)
+    cls(2)
     print(f"Enemy {selection}\n\n{selection} Current HP: {enemies.get(selection).get('HP')}\nYour Current HP: {charas.get(character).get('HP')}")
     turn = input(f"\nWhat would you like to do?:\n\n(1)Basic Attack - {charas.get(character).get('Basic_attack')}DMG - AP: {ability_points['ba']}\t(2)Skill - {charas.get(character).get('Skill')}DMG - AP: {ability_points['skill']}\n(3)Heal Self - {charas.get(character).get('heal')}HP - AP: {ability_points['heal']}\t(4)Ultimate {charas.get(character).get('ultimate')}DMG - AP: {ability_points['ulti']}\nEnter here:\t")
+
     if turn == "1": 
-      cls(0.5)      
-      enemies[selection]["HP"] -= charas[character]["Basic_attack"]
+      cls(0)      
       if crithit == True:        
-        enemies[selection]["HP"] -= charas[character]["crit"]
-        print(f"\n\nCritical Hit! Dealt Basic Attack (-{charas[character]['Skill']+charas[character]['crit']}) to {selection}\n")
+        enemies[selection]["HP"] -= charas[character]["critdmg"]*charas[character]["Basic_attack"]
+        print(f"\n\nCritical Hit! Dealt Basic Attack (-{charas[character]['Skill']*charas[character]['critdmg']}) to {selection}\n")
         time.sleep(0.5)
-        print("\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
+        print(f"\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       else:
-        print(f"\n\nDealt Basic Attack (-{charas[character]['Skill']}) to {selection}\n")
+        enemies[selection]["HP"] -= charas[character]["Basic_attack"]
+        print(f"\n\nDealt Basic Attack (-{charas[character]['Basic_Attack']}) to {selection}\n")
         time.sleep(0.8)
         print(f"\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       charas[character]["HP"] -= dmg
     elif turn == "2":
       cls(0)
-      enemies[selection]["HP"] -= charas[character]["Skill"]
+      ability_points["skill"] -= 1
       if ability_points["skill"] == 0:
         print("Can't do that!")
         cls(1)
       elif crithit == True:
-        enemies[selection]["HP"] -= charas[character]["crit"]
-        print(f"\n\nCritical Hit! Dealt Skill (-{charas[character]['Skill']+charas[character]['crit']}) to {selection}\n")
+        enemies[selection]["HP"] -= charas[character]["critdmg"]*charas[character]["Skill"]
+        print(f"\n\nCritical Hit! Dealt Skill (-{charas[character]['Skill']*charas[character]['critdmg']}) to {selection}\n")
         time.sleep(0.8)
         print(f"\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       else:
+        enemies[selection]["HP"] -= charas[character]["Skill"]
         print(f"\n\nDealt Skill (-{charas[character]['Basic_attack']}) to {selection}\n")
         time.sleep(0.8)
         print(f"\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       charas[character]["HP"] -= dmg
-      ability_points["skill"] -= 1
     elif turn == "3":
       cls(0)
       charas[character]["HP"] += charas[character]["heal"]
+      ability_points["heal"] -= 1
       if ability_points("skill") == 0:
         print("Can't do that!")
         cls(1)
@@ -113,44 +113,45 @@ def battle(character, selection, action, dmg, crithit):
         time.sleep(0.8)
         print(f"\n{selection} used {action}! Dealt {enemies[selection][action]}\n\n")
       charas[character]["HP"] -= dmg
-      ability_points["heal"] -= 1
     elif turn == "4":
       cls(0)
-      enemies[selection]["HP"] -= charas[character]["ultimate"]
+      ability_points["ulti"] -= 1
       if ability_points["ulti"] == 0:
         print("Can't do that!")
         cls(1)
       elif crithit == True:
-        enemies[selection]["HP"] -= charas[character]["crit"]
-        print(f"\n\nCritical Hit! Dealt Ultimate(-{charas[character]['ultimate']+charas[character]['crit']}) to {selection}\n")
+        enemies[selection]["HP"] -= charas[character]["critdmg"]*charas[character]["ultimate"]
+        print(f"\n\nCritical Hit! Dealt Ultimate(-{charas[character]['ultimate']*charas[character]['critdmg']}) to {selection}\n")
         time.sleep(0.8)
         print(f"\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
       else:
+        enemies[selection]["HP"] -= charas[character]["ultimate"]
         print(f"\n\nDealt Ultimate(-{charas[character]['ultimate']}) to {selection}\n")
         time.sleep(0.8)
         print(f"\n{selection} used {action}! Dealt {enemies[selection][action]} to {character} HP:{charas[character]['HP']}\n\n")
         charas[character]["HP"] -= dmg   
-        ability_points["ulti"] -= 1   
+           
     else: 
         print("Choose a Valid Option.")
 
     if enemies[selection]["HP"] <= 0:
       cls(0)
       print("Enemy Defeated")
-      x = input("Would you like to return?").lower()
+      x = input("Would you like to return to character select?:\t").lower()
       if x == "yes":
+        cls(0)
         print("returning")
         for y in range(3):
           time.sleep(0.5)
           print(".")
-          cls(0)
-          return character_select()
+        cls(0)
+        return character_select()
       elif x == "no":
         print("ending session")
         for y in range(3):
           time.sleep(0.5)
           print(".")
-          cls(0)
+        cls(0)
         break
     elif charas[character]["HP"] <= 0:
       cls(0)
@@ -163,7 +164,6 @@ def battle(character, selection, action, dmg, crithit):
       else:
         print("Choose within the options")
       cls(0)
-
 def enemy_behaviour(selection):
   if random.randint(1,25) == 1:
     action = "Ultimate"
@@ -179,20 +179,17 @@ def enemy_behaviour(selection):
       dmg = enemies[selection]['Skill']
       return action, dmg    
 def critical(character):
-  x = random.randint(charas[character]["crit"]-20, charas[character]["crit"])
-  chance = 0+x      
-  if chance == 100:
-    chance = 0
-    crithit = True
-    return crithit
-  else:
     crithit = False
-    return crithit
+    if random.randint(1, 100) <= charas[character]["crit"]-10:
+      crithit = True
+      return crithit
+    else:
+      crithit = False
+      return crithit
   
 character = character_select()
 selection = boss_select(character)
 action, dmg = enemy_behaviour(selection)
 crithit = critical(character)
 count = battle(character, selection, action, dmg, crithit) 
-
 
